@@ -73,7 +73,18 @@ export const Checkout = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay
+              className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleCloseMenu();
+              }}
+            />
           </Transition.Child>
 
           {/* pointer-events-none agar klik backdrop selalu menutup */}
@@ -89,8 +100,8 @@ export const Checkout = () => {
             >
               {/* pointer-events-auto agar panel bisa diklik */}
               <div className="w-screen max-w-md pointer-events-auto">
-                <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
-                  <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
+                <div className="flex h-[100dvh] flex-col bg-white shadow-xl sm:h-full">
+                  <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div className="flex items-start justify-between">
                       <Dialog.Title className="text-lg font-medium text-gray-900">
                         Keranjang
@@ -110,7 +121,7 @@ export const Checkout = () => {
                       <CartItems items={items} />
                     </div>
                   </div>
-                  <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
+                  <div className="border-t border-gray-200 px-4 py-6 sm:px-6 pb-[calc(env(safe-area-inset-bottom)+1.5rem)]">
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <p>Total:</p>
                       <p>

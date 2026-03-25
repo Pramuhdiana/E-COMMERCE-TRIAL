@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "admin-404",
+      "phone": "404",
+      "password": "admin",
+      "createdAt": 0
+    }
+  ]
+}
+

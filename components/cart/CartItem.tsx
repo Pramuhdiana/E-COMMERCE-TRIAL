@@ -2,6 +2,7 @@ import { useCart } from "./hooks/useCart";
 import { useStock } from "../products/context/stockContext";
 import { useToast } from "../ui/toast/ToastContext";
 import type { CartItem as CartItemType } from "./context/types";
+import { TrashIcon } from "@heroicons/react/outline";
 
 export const CartItem = ({ item }: { readonly item: CartItemType }) => {
   const product = item.product;
@@ -50,7 +51,9 @@ export const CartItem = ({ item }: { readonly item: CartItemType }) => {
             <div className="inline-flex items-center rounded-lg border border-gray-200 bg-white">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   restoreOne(product);
                   dispatch({ type: "decreaseQty", payload: { productId: id } });
                 }}
@@ -65,7 +68,9 @@ export const CartItem = ({ item }: { readonly item: CartItemType }) => {
               <button
                 type="button"
                 disabled={currentStock <= 0}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   const ok = consume(id, stock);
                   if (!ok) {
                     pushToast(`Stok ${name} habis.`);
@@ -82,15 +87,19 @@ export const CartItem = ({ item }: { readonly item: CartItemType }) => {
 
             <button
               type="button"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 // restore stok sebanyak qty
                 for (let i = 0; i < qty; i++) restoreOne(product);
                 dispatch({ type: "removeProduct", payload: { productId: id } });
                 pushToast(`Barang ${name} dihapus dari keranjang.`);
               }}
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+              className="inline-flex items-center gap-1.5 font-semibold text-red-600 hover:text-red-700"
+              aria-label="Hapus dari keranjang"
             >
-              Hapus
+              <TrashIcon className="h-4 w-4" aria-hidden="true" />
+              <span>Hapus</span>
             </button>
           </div>
         </div>

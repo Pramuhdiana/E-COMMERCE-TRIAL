@@ -37,6 +37,27 @@ export function AuthProvider({ children }: { readonly children: React.ReactNode 
   useEffect(() => {
     setUsers(loadUsers());
     setSession(loadSession());
+
+    // Sinkronisasi users dari backend file-based agar akun tetap ada walau localStorage dihapus.
+    (async () => {
+      try {
+        const res = await fetch("/api/users");
+        const json = (await res.json()) as { users?: Array<User> };
+        const serverUsers = Array.isArray(json?.users) ? json.users : [];
+        if (serverUsers.length > 0) {
+          setUsers((prev) => {
+            const map = new Map<string, User>();
+            for (const u of serverUsers) map.set(u.phone, u);
+            for (const u of prev) map.set(u.phone, u);
+            const merged = Array.from(map.values()).sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+            saveUsers(merged);
+            return merged;
+          });
+        }
+      } catch {
+        // ignore (tetap bisa jalan FE-only)
+      }
+    })();
   }, []);
 
   const value = useMemo<AuthContextValue>(() => {
@@ -50,6 +71,13 @@ export function AuthProvider({ children }: { readonly children: React.ReactNode 
       const nextUsers = [user, ...users];
       setUsers(nextUsers);
       saveUsers(nextUsers);
+
+      // Simpan juga ke backend (file-based) agar user permanen.
+      void fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      }).catch(() => {});
 
       const nextSession: Session = { userId: user.id, phone: user.phone, createdAt: Date.now() };
       setSession(nextSession);

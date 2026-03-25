@@ -10,6 +10,74 @@ Project e-commerce yang bisa jalan **lokal tanpa database**. Data produk memakai
 - React Query
 - Headless UI
 
+## Prasyarat (Wajib Install)
+
+Sebelum menjalankan project, pastikan tools berikut sudah terinstall:
+
+- **Node.js** (disarankan versi LTS) + **npm**
+  - Cek versi:
+
+```bash
+node -v
+npm -v
+```
+
+- **Git** (untuk clone repository)
+  - Cek versi:
+
+```bash
+git --version
+```
+
+### Windows
+
+- **Install Node.js (LTS)**:
+  - Download dari [Node.js](https://nodejs.org/en/download) (pilih versi **LTS** untuk Windows).
+  - Jalankan installer `.msi` → Next → centang opsi default (npm otomatis terinstall).
+  - Tutup & buka ulang terminal (PowerShell/Windows Terminal), lalu cek:
+
+```bash
+node -v
+npm -v
+```
+
+- **Install Git**:
+  - Download dari [Git for Windows](https://git-scm.com/download/win)
+  - Jalankan installer → gunakan pengaturan default (aman).
+  - Cek:
+
+```bash
+git --version
+```
+
+- **Terminal**: disarankan pakai **Windows Terminal** atau **PowerShell**.
+
+### macOS
+
+- **Install Git** (biasanya sudah ada). Jika belum ada, install **Xcode Command Line Tools**:
+
+```bash
+xcode-select --install
+```
+
+- **Install Node.js (LTS)** (pilih salah satu cara):
+  - Cara A (paling mudah): download dari [Node.js](https://nodejs.org/en/download) (macOS, versi **LTS**), lalu install.
+  - Cara B (Homebrew):
+    1. Install Homebrew (ikuti panduan resmi): [Homebrew](https://brew.sh/)
+    2. Install Node:
+
+```bash
+brew install node
+```
+
+- Setelah install, cek:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
 ## Cara Menjalankan
 
 Masuk ke root project ini, lalu jalankan:

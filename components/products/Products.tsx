@@ -287,7 +287,14 @@ export const Products = () => {
         </div>
       ) : null}
 
-      <div className="mb-4 flex items-center justify-between">
+      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        {paged.map((product) => (
+          <Product key={product.id} {...product} onUploadImage={handleUploadImage} />
+        ))}
+      </div>
+
+      {/* Info halaman + pagination di bagian bawah */}
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-gray-600">
           Menampilkan {paged.length} dari {filteredProducts.length} produk
           {activeCategory !== "all" ? (
@@ -303,31 +310,45 @@ export const Products = () => {
             </>
           ) : null}
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-2 sm:justify-start">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="inline-flex items-center justify-center rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
             disabled={safePage === 1}
+            aria-label="Halaman sebelumnya"
           >
-            Sebelumnya
+            <span className="hidden sm:inline">Sebelumnya</span>
+            <svg className="h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M15 18l-6-6 6-6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
           <span className="text-sm text-gray-700">
             Halaman {safePage} / {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            className="rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="inline-flex items-center justify-center rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
             disabled={safePage === totalPages}
+            aria-label="Halaman berikutnya"
           >
-            Berikutnya
+            <span className="hidden sm:inline">Berikutnya</span>
+            <svg className="h-5 w-5 sm:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M9 6l6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {paged.map((product) => (
-          <Product key={product.id} {...product} onUploadImage={handleUploadImage} />
-        ))}
       </div>
     </div>
   );
