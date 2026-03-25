@@ -1,0 +1,24 @@
+import Stripe from 'stripe';
+import * as y from 'yup';
+import { getEnv } from './env';
+import { loadStripe } from '@stripe/stripe-js';
+import { STRIPE_ENABLED } from './runtimeFlags';
+
+export const redirectToCheckout = async (session: Pick<Stripe.Checkout.Session, 'id'>) => {
+  if (!STRIPE_ENABLED) {
+    // No API / no Stripe mode: just keep the app runnable.
+    return;
+  }
+
+  const stripe = await loadStripe(getEnv('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY'));
+
+  return stripe!.redirectToCheckout({
+    sessionId: session.id,
+  });
+};
+
+export const stripeSessionSchema: y.SchemaOf<Pick<Stripe.Checkout.Session, 'id'>> = y
+  .object()
+  .shape({
+    id: y.string().required(),
+  });

@@ -1,0 +1,49 @@
+{
+  "name": "fullstack-next",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "eslint": "eslint --ext .js,.jsx,.ts,.tsx --fix .",
+    "tsc": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sentry/nextjs": "^9.0.0",
+    "@stripe/react-stripe-js": "^1.6.0",
+    "@stripe/stripe-js": "^1.21.1",
+    "formidable": "^3.5.4",
+    "next": "^15.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.33.1",
+    "stripe": "^8.190.0",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/formidable": "^3.5.0",
+    "@types/micro": "^7.3.6",
+    "@types/micro-cors": "^0.1.2",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/stripe": "^8.0.417",
+    "autoprefixer": "^10.4.27",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "postcss": "^8.5.8",
+    "prettier": "^2.5.0",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.0.0"
+  }
+}
