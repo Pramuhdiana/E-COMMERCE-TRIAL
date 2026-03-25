@@ -18,7 +18,8 @@ export const Layout = ({ children }: LayoutProps) => (
               Toko Laptop Gaming
             </h1>
             <p className="text-sm sm:text-base text-gray-600">
-              Katalog produk, keranjang, dan checkout.
+              Jelajahi pilihan laptop gaming dari berbagai kategori, tambahkan ke keranjang, atur jumlah,
+              dan lanjutkan checkout dengan pengalaman belanja yang cepat, rapi, dan responsif.
             </p>
           </div>
           <div className="mt-8">{children}</div>

@@ -19,6 +19,7 @@ export const Header = () => {
   const router = useRouter();
   const activeCategory = typeof router.query.category === "string" ? router.query.category : "all";
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [closeTimer, setCloseTimer] = useState<number | null>(null);
   const [hasMounted, setHasMounted] = useState(false);
   const {
@@ -31,7 +32,10 @@ export const Header = () => {
   }, []);
 
   useEffect(() => {
-    const close = () => setIsCategoryOpen(false);
+    const close = () => {
+      setIsCategoryOpen(false);
+      setIsMobileMenuOpen(false);
+    };
     router.events.on("routeChangeComplete", close);
     return () => {
       router.events.off("routeChangeComplete", close);
@@ -174,7 +178,27 @@ export const Header = () => {
               ) : null}
             </button>
 
-            {isLoggedIn ? (
+            {/* Mobile menu button (paling kanan) */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+              className="md:hidden inline-flex items-center justify-center rounded-full px-3 py-2 text-gray-900 hover:bg-gray-100"
+              aria-label="Buka menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+
+            {/* Desktop auth */}
+            <div className="hidden md:flex items-center gap-3">
+              {isLoggedIn ? (
               <>
                 <div className="hidden sm:block text-sm font-medium text-gray-700">
                   {session?.phone}
@@ -201,9 +225,110 @@ export const Header = () => {
                   Daftar
                 </Link>
               </div>
-            )}
+              )}
+            </div>
           </div>
         </nav>
+
+        {/* Mobile menu panel */}
+        {isMobileMenuOpen ? (
+          <div className="md:hidden pb-4">
+            <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
+              <div className="flex items-center gap-2">
+                <input
+                  className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Cari laptop gaming, RTX, 144Hz..."
+                />
+              </div>
+
+              <div className="mt-3">
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryOpen((v) => !v)}
+                  className="w-full inline-flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+                  aria-expanded={isCategoryOpen}
+                >
+                  Kategori
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                    className={["transform transition-transform duration-150", isCategoryOpen ? "rotate-180" : "rotate-0"].join(" ")}
+                  >
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </button>
+
+                {isCategoryOpen ? (
+                  <div className="mt-2 grid grid-cols-1 gap-1">
+                    {CATEGORIES.map((c) => (
+                      <Link
+                        key={c.id}
+                        href={{ pathname: "/", query: c.id === "all" ? {} : { category: c.id } }}
+                        onClick={() => {
+                          setIsCategoryOpen(false);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={[
+                          "block rounded-xl px-3 py-2 text-sm",
+                          c.id === activeCategory ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-800",
+                          "hover:bg-gray-50",
+                        ].join(" ")}
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <a href="#" className="rounded-xl px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50">
+                  Promo
+                </a>
+                <a href="#" className="rounded-xl px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50">
+                  Bantuan
+                </a>
+              </div>
+
+              <div className="mt-3 border-t border-gray-100 pt-3">
+                {isLoggedIn ? (
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-sm font-medium text-gray-700">{session?.phone}</div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+                    >
+                      Keluar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href="/masuk"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+                    >
+                      Masuk
+                    </Link>
+                    <Link
+                      href="/daftar"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
+                    >
+                      Daftar
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </header>
   );

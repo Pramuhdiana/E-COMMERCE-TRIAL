@@ -61,7 +61,28 @@ export const Product = (product: ProductCardProps) => {
 
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-gray-300 bg-gray-50 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="w-full overflow-hidden bg-white">
+        <div className="w-full overflow-hidden bg-white">
+        {/* Mobile badges (1 baris, di atas gambar) */}
+        <div className="flex flex-nowrap items-center justify-between gap-2 px-3 pt-3 pb-2 sm:hidden">
+          <span
+            className={[
+              "max-w-[60%] truncate rounded-full px-3 py-1 text-xs font-semibold ring-1 shadow-sm",
+              categoryBadgeClass(category),
+            ].join(" ")}
+            title={categoryLabel(category)}
+          >
+            {categoryLabel(category)}
+          </span>
+          <span
+            className={[
+              "shrink-0 rounded-full px-3 py-1 text-xs font-semibold ring-1 shadow-sm",
+              stockBadgeClass(currentStock),
+            ].join(" ")}
+          >
+            Stok: {currentStock}
+          </span>
+        </div>
+
         <div className="relative h-56 w-full sm:h-64 lg:h-72 bg-white">
           <img
             className="block h-full w-full object-contain p-3"
@@ -75,7 +96,7 @@ export const Product = (product: ProductCardProps) => {
               maximumFractionDigits: 0,
             }).format(price)}
           </div>
-          <div className="absolute left-3 top-3 z-0 flex items-center gap-2">
+          <div className="absolute left-3 top-3 z-0 hidden items-center gap-2 sm:flex">
             <span
               className={[
                 "rounded-full px-3 py-1 text-xs font-semibold ring-1 shadow-sm",

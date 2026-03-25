@@ -111,7 +111,13 @@ export default function ProductDetailPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-            <img src={product.image} alt={product.name} className="h-[420px] w-full object-cover" />
+            <div className="flex h-[320px] items-center justify-center bg-white sm:h-[380px] lg:h-[420px]">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="block h-full w-full object-contain p-4"
+              />
+            </div>
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-6">
